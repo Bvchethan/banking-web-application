@@ -19,21 +19,53 @@ export default function ProfilePage() {
       address: form.address
     });
     setForm(data);
-    setMessage("Profile updated successfully.");
+    setMessage("Customer contact details updated successfully.");
   };
 
   return (
-    <AppShell title="Profile Page" subtitle="Maintain your account identity details with secure update controls.">
-      <form className="grid gap-5 md:grid-cols-2" onSubmit={handleSubmit}>
-        <FormInput label="Full Name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
-        <FormInput label="Email" value={form.email} disabled />
-        <FormInput label="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-        <FormInput label="Address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
-        {message ? <p className="md:col-span-2 text-sm text-emerald-300">{message}</p> : null}
-        <button className="rounded-2xl bg-teal-400 px-4 py-3 font-semibold text-slate-950 transition hover:bg-teal-300">
-          Save Profile
-        </button>
-      </form>
+    <AppShell
+      title="Profile & Contact"
+      subtitle="Review the registered customer identity details used for account communication and servicing."
+    >
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <section className="app-panel">
+          <div className="border-b border-slate-200 px-4 py-3">
+            <div className="panel-title">Customer Profile</div>
+          </div>
+          <form className="grid gap-5 px-4 py-4 md:grid-cols-2" onSubmit={handleSubmit}>
+            <FormInput label="Customer Name" value={form.fullName} onChange={(event) => setForm({ ...form, fullName: event.target.value })} />
+            <FormInput label="Email Address" value={form.email} disabled />
+            <FormInput label="Mobile Number" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} />
+            <FormInput
+              label="Registered Address"
+              as="textarea"
+              value={form.address}
+              onChange={(event) => setForm({ ...form, address: event.target.value })}
+            />
+
+            {message ? <div className="md:col-span-2 border border-emerald-200 bg-emerald-50 px-3 py-2 text-[13px] text-emerald-700">{message}</div> : null}
+
+            <div className="md:col-span-2">
+              <button className="button-primary min-w-[160px]">Update Profile</button>
+            </div>
+          </form>
+        </section>
+
+        <aside className="space-y-6">
+          <div className="app-panel">
+            <div className="border-b border-slate-200 px-4 py-3">
+              <div className="panel-title">Customer Record Notes</div>
+            </div>
+            <div className="px-4 py-4 text-[13px] leading-6 text-slate-700">
+              <ul className="space-y-2">
+                <li>- Email address remains the primary online banking login identifier.</li>
+                <li>- Contact changes should match the latest KYC and communication records.</li>
+                <li>- Update phone number promptly to maintain OTP and alert delivery.</li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
     </AppShell>
   );
 }

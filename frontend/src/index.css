@@ -1,34 +1,74 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  color: #e2e8f0;
-  background:
-    radial-gradient(circle at top left, rgba(15, 118, 110, 0.22), transparent 30%),
-    radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 24%),
-    linear-gradient(180deg, #020617 0%, #08111f 100%);
-  font-family: "Space Grotesk", sans-serif;
+  color: #1e293b;
+  background-color: #f4f7fb;
+  font-family: "Public Sans", "Segoe UI", sans-serif;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #f4f7fb;
+    color: #1e293b;
+    font-family: "Public Sans", "Segoe UI", sans-serif;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
 }
 
-#root {
-  min-height: 100vh;
-}
+@layer components {
+  .app-panel {
+    @apply border border-slate-200 bg-white;
+  }
 
-.glass {
-  @apply border border-white/10 bg-white/5 backdrop-blur-xl;
-}
+  .panel-title {
+    @apply text-[15px] font-semibold text-slate-900;
+  }
 
-.grid-surface {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 36px 36px;
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500;
+  }
+
+  .form-control {
+    @apply block w-full border border-slate-300 bg-white px-3 py-2 text-[14px] text-slate-900 outline-none transition focus:border-sky-700 focus:ring-1 focus:ring-sky-700 disabled:bg-slate-100 disabled:text-slate-500;
+  }
+
+  .button-primary {
+    @apply inline-flex items-center justify-center border border-sky-800 bg-sky-800 px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-sky-900;
+  }
+
+  .button-secondary {
+    @apply inline-flex items-center justify-center border border-slate-300 bg-white px-4 py-2 text-[14px] font-semibold text-slate-700 transition hover:bg-slate-50;
+  }
+
+  .button-danger {
+    @apply inline-flex items-center justify-center border border-rose-700 bg-white px-4 py-2 text-[14px] font-semibold text-rose-700 transition hover:bg-rose-50;
+  }
+
+  .status-chip {
+    @apply inline-flex items-center border px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.04em];
+  }
 }

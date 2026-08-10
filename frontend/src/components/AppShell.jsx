@@ -2,24 +2,22 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const customerLinks = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/transfer", label: "Transfer" },
+  { to: "/dashboard", label: "Account Overview" },
+  { to: "/transfer", label: "Payments & Transfers" },
   { to: "/beneficiaries", label: "Beneficiaries" },
-  { to: "/transactions", label: "Transactions" },
-  { to: "/fraud-analytics", label: "Fraud Analytics" },
+  { to: "/transactions", label: "Transaction History" },
+  { to: "/fraud-analytics", label: "Fraud Review" },
   { to: "/financial-insights", label: "Financial Insights" },
-  { to: "/profile", label: "Profile" }
+  { to: "/profile", label: "Profile & Contact" }
 ];
 
-const adminLinks = [
-  { to: "/admin", label: "Admin Dashboard" },
-  ...customerLinks
-];
+const adminLinks = [{ to: "/admin", label: "Operations Dashboard" }, ...customerLinks];
 
-export default function AppShell({ title, subtitle, children }) {
+export default function AppShell({ title, subtitle, children, actions = null }) {
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
-  const links = auth?.roles?.includes("ROLE_ADMIN") ? adminLinks : customerLinks;
+  const isAdmin = auth?.roles?.includes("ROLE_ADMIN");
+  const links = isAdmin ? adminLinks : customerLinks;
 
   const handleLogout = () => {
     logout();
@@ -27,28 +25,50 @@ export default function AppShell({ title, subtitle, children }) {
   };
 
   return (
-    <div className="min-h-screen grid-surface">
-      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-6 lg:flex-row lg:gap-6">
-        <aside className="glass mb-6 rounded-3xl p-6 shadow-glow lg:mb-0 lg:w-80">
-          <Link to="/dashboard" className="mb-8 block">
-            <p className="text-sm uppercase tracking-[0.35em] text-teal-300">NovaBank</p>
-            <h1 className="mt-2 text-3xl font-semibold text-white">Digital Banking</h1>
-          </Link>
-
-          <div className="mb-8 rounded-2xl bg-teal-400/10 p-4">
-            <p className="text-sm text-slate-300">Signed in as</p>
-            <p className="mt-1 text-lg font-semibold text-white">{auth?.fullName}</p>
-            <p className="text-sm text-slate-400">{auth?.email}</p>
+    <div className="min-h-screen bg-slate-100">
+      <header className="border-b border-slate-800 bg-slate-950 text-white">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-6">
+            <Link to={isAdmin ? "/admin" : "/dashboard"} className="block">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-300">NovaBank</div>
+              <div className="mt-1 text-[20px] font-semibold leading-none">Digital Banking</div>
+            </Link>
+            <div className="hidden border-l border-slate-700 pl-6 text-[12px] text-slate-300 lg:block">
+              Secure retail banking workspace
+            </div>
           </div>
 
-          <nav className="space-y-2">
+          <div className="flex items-center gap-4">
+            <div className="hidden text-right sm:block">
+              <div className="text-[13px] font-semibold">{auth?.fullName || "Authenticated User"}</div>
+              <div className="mt-1 text-[11px] uppercase tracking-[0.06em] text-slate-400">
+                {isAdmin ? "Administrator Session" : "Customer Session"}
+              </div>
+            </div>
+            <button type="button" onClick={handleLogout} className="button-secondary !border-slate-600 !bg-slate-950 !px-3 !py-2 !text-white hover:!bg-slate-900">
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="mx-auto grid max-w-[1440px] gap-6 px-6 py-6 lg:grid-cols-[248px_minmax(0,1fr)]">
+        <aside className="app-panel self-start">
+          <div className="border-b border-slate-200 px-4 py-4">
+            <div className="section-label">Primary Navigation</div>
+            <div className="mt-2 text-[15px] font-semibold text-slate-900">{isAdmin ? "Operations Menu" : "Customer Services"}</div>
+          </div>
+
+          <nav className="px-2 py-2">
             {links.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `block rounded-2xl px-4 py-3 text-sm transition ${
-                    isActive ? "bg-white text-slate-900" : "text-slate-300 hover:bg-white/10 hover:text-white"
+                  `mb-1 block border-l-4 px-3 py-2 text-[13px] font-medium ${
+                    isActive
+                      ? "border-sky-800 bg-sky-50 text-sky-900"
+                      : "border-transparent text-slate-700 hover:bg-slate-50 hover:text-slate-900"
                   }`
                 }
               >
@@ -57,25 +77,30 @@ export default function AppShell({ title, subtitle, children }) {
             ))}
           </nav>
 
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="mt-8 w-full rounded-2xl border border-white/10 px-4 py-3 text-sm text-white transition hover:bg-white/10"
-          >
-            Logout
-          </button>
+          <div className="border-t border-slate-200 px-4 py-4 text-[12px] text-slate-600">
+            <div className="font-semibold text-slate-800">Online Banking Support</div>
+            <div className="mt-2">Retail care: 1800-266-1001</div>
+            <div className="mt-1">Fraud reporting: 1800-266-9191</div>
+          </div>
         </aside>
 
-        <main className="flex-1">
-          <section className="glass rounded-3xl p-6 shadow-glow">
-            <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-orange-300">Secure Banking</p>
-                <h2 className="mt-2 text-3xl font-semibold text-white">{title}</h2>
-                <p className="mt-2 max-w-3xl text-slate-400">{subtitle}</p>
+        <main className="min-w-0">
+          <section className="app-panel">
+            <div className="border-b border-slate-200 px-6 py-5">
+              <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+                <div>
+                  <div className="section-label">Digital Banking</div>
+                  <h1 className="mt-2 text-[28px] font-semibold leading-tight text-slate-950">{title}</h1>
+                  {subtitle ? <p className="mt-2 max-w-4xl text-[14px] leading-6 text-slate-600">{subtitle}</p> : null}
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-[12px] text-slate-500">
+                  <span className="status-chip border-emerald-200 bg-emerald-50 text-emerald-700">Secure Session Active</span>
+                  {actions}
+                </div>
               </div>
             </div>
-            {children}
+
+            <div className="px-6 py-6">{children}</div>
           </section>
         </main>
       </div>

@@ -1,9 +1,9 @@
 export default function RiskBadge({ risk }) {
   const styles = {
-    LOW: "bg-emerald-400/15 text-emerald-200",
-    MEDIUM: "bg-amber-400/15 text-amber-200",
-    HIGH: "bg-rose-400/15 text-rose-200"
+    LOW: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    MEDIUM: "border-amber-200 bg-amber-50 text-amber-700",
+    HIGH: "border-rose-200 bg-rose-50 text-rose-700"
   };
 
-  return <span className={`rounded-full px-3 py-1 text-xs font-semibold ${styles[risk] || styles.LOW}`}>{risk}</span>;
+  return <span className={`status-chip ${styles[risk] || styles.LOW}`}>{risk || "LOW"}</span>;
 }

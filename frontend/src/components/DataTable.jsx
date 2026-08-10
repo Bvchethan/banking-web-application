@@ -1,31 +1,34 @@
-export default function DataTable({ columns, rows, emptyText = "No records found." }) {
+export default function DataTable({ columns, rows, emptyText = "No records available.", caption = null }) {
   return (
-    <div className="overflow-hidden rounded-3xl border border-white/10">
+    <div className="app-panel overflow-hidden">
+      {caption ? (
+        <div className="border-b border-slate-200 px-4 py-3 text-[13px] font-medium text-slate-700">{caption}</div>
+      ) : null}
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-white/10 text-left text-sm">
-          <thead className="bg-white/5 text-slate-300">
+        <table className="min-w-full table-auto text-left text-[13px]">
+          <thead className="bg-slate-100 text-slate-700">
             <tr>
               {columns.map((column) => (
-                <th key={column.key} className="px-4 py-3 font-medium">
+                <th key={column.key} className="border-b border-slate-200 px-4 py-3 font-semibold">
                   {column.label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/10 bg-slate-950/20 text-slate-200">
+          <tbody className="bg-white text-slate-800">
             {rows.length ? (
               rows.map((row, index) => (
-                <tr key={row.id || index}>
+                <tr key={row.id || index} className="align-top even:bg-slate-50/60 hover:bg-sky-50/50">
                   {columns.map((column) => (
-                    <td key={column.key} className="px-4 py-3">
-                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                    <td key={column.key} className="border-b border-slate-200 px-4 py-3 leading-5">
+                      {column.render ? column.render(row[column.key], row) : row[column.key] || "--"}
                     </td>
                   ))}
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-6 text-center text-slate-400">
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-slate-500">
                   {emptyText}
                 </td>
               </tr>

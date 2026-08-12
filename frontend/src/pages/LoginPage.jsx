@@ -115,7 +115,7 @@ export default function LoginPage() {
                 {/* Left - Image */}
                 <div className="flex justify-center">
                   <img
-                    src="public\images\image.png" 
+                    src="public\images\image.png"
                     alt="Customer Support"
                     className="h-54 w-full max-w-sm rounded-xl object-cover shadow-md"
                   />
@@ -123,9 +123,9 @@ export default function LoginPage() {
 
                 {/* Right - Support Hours */}
                 <div>
-                  <div className="section-label">Support Hours</div>
+                  <div className="section-label">Support hours</div>
                   <p className="mt-2 text-[14px] leading-6 text-slate-700">
-                    Retail banking support is available Monday to Saturday,
+                    Retail banking support available Monday to Saturday,
                     <br />
                     <span className="font-semibold">8:00 AM – 8:00 PM IST</span>
                     .
